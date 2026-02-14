@@ -232,7 +232,11 @@ function add() {
   console.log(c);
 }
 add();
+<<<<<<< HEAD
 
+=======
+*/
+>>>>>>> 9db82e905b045352c286c2708a4ac4edadff56bb
 //no input with output function
 let a = 100;
 let b = 200;
@@ -243,6 +247,7 @@ function add() {
 }
 let res = add();
 console.log(res);
+<<<<<<< HEAD
 
 // with input with no output function
 function add(x,y)
@@ -293,3 +298,5 @@ function add(a, b) {
 }
 console.log(add(10, 20));
 */
+=======
+>>>>>>> 9db82e905b045352c286c2708a4ac4edadff56bb
