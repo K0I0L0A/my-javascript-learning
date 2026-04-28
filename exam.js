@@ -403,8 +403,608 @@ console.log(arrowFun(10, 40));
 // arrow function with only one body
 let add = (a, b) => a + b;
 console.log(add(10, 50));
-*/
+
 // iife - immediately invoked function expression
 (function () {
   console.log("This is an IIFE");
 })();
+
+// Day 17 hoisting
+var a;
+console.log(a);
+a = 100;
+console.log(a);
+
+let a;
+console.log(a);
+a = 100;
+console.log(a);
+
+function greet() {
+  console.log("hello");
+}
+greet();
+
+// day 18 scope
+// global scope
+let a = 100;
+console.log(a);
+function fun() {
+  console.log(a);
+}
+fun();
+
+// function scope
+function fun() {
+  let a = 100;
+  console.log(a);
+}
+fun();
+console.log(a);
+
+// Block scope 18;02
+let temp = 30;
+if (temp > 25) {
+  let coolingTemp = temp - 25;
+  console.log("Server room needs cooled by", coolingTemp);
+} else {
+  let heatingTemp = 25 - temp;
+  console.log("Server room needs heated by", heatingTemp);
+}
+console.log(temp);
+console.log(coolingTemp);
+console.log(heatingTemp);
+
+// Hoisting happens in block scope when we use var keyword, var is function scoped and not block scoped, so it gets hoisted to the top of the function or global scope, but let and const are block scoped and do not get hoisted, so they will throw an error if we try to access them before they are declared.
+
+let temp = 30;
+if (temp > 25) {
+  var coolingTemp = temp - 25;
+  console.log("Server room needs cooled by", coolingTemp);
+} else {
+  var heatingTemp = 25 - temp;
+  console.log("Server room needs heated by", heatingTemp);
+}
+console.log(temp);
+console.log(coolingTemp);
+console.log(heatingTemp);
+
+function printTillNumber(num) {
+  for (let i = 1; i <= num; i++) {
+    console.log(i);
+  }
+  console.log("Final value of i = ", i);
+}
+printTillNumber(5);
+
+
+function printTillNumber(num) {
+  for (var i = 1; i <= num; i++) {
+    console.log(i);
+  }
+  console.log("Final value of i = ", i);
+}
+printTillNumber(5);
+
+// day 19 objects oriented programming
+// ways of  recreating objects
+
+let a = {
+  name: "BMW",
+  cost: 1000000,
+  mileage: 15,
+
+  start: function () {
+    console.log("Car is starting");
+  },
+  stop: function () {
+    console.log("Car is stopping");
+  },
+  accelerate: function () {
+    console.log("Car is accelerating");
+  },
+};
+console.log(a.name);
+console.log(a.cost);
+a.start();
+a.stop();
+
+// class work
+let student = {
+  name: "Anu",
+  grade: "A",
+  age: 20,
+
+  code: function () {
+    console.log("coding");
+  },
+  sing: function () {
+    console.log("singing");
+  },
+  dance: function () {
+    console.log("dancing");
+  },
+};
+console.log(student.name);
+console.log(student.grade);
+console.log(student.age);
+student.code();
+student.sing();
+student.dance();
+
+// day 20 pass by value and pass by reference
+// pass by value
+let a = 10;
+console.log(a);
+let b;
+b = a;
+b = 20;
+console.log(a);
+console.log(b);
+// by reference
+
+let c1 = {
+  name: "BMW",
+  cost: 1000000,
+  mileage: 15,
+};
+console.log(c1.name);
+console.log(c1.cost);
+console.log(c1.mileage);
+
+let c2;
+c2 = c1;
+
+c2.name = "Audi";
+console.log(c2.name);
+console.log(c1.name);
+
+// day 21 functions as first class citizens
+function exmp(car) {
+  console.log(car);
+}
+let c1 = {
+  name: "Anu",
+  grade: "A",
+  age: 20,
+};
+exmp(c1);
+
+// returning a function from a function
+function exmp(car) {
+  let c1 = {
+    name: "Anu",
+    grade: "A",
+    age: 20,
+  };
+  return c1;
+}
+console.log(exmp());
+
+function add1(a, b) {
+  console.log(a + b);
+}
+add1(10, 20);
+let add2;
+add2 = add1;
+add2(30, 40);
+
+// higher order function - a function that takes another function as an argument or returns a function as a result
+function exmp(fun) {
+  fun(10, 20);
+}
+// call back function - a function that is passed as an argument to another function and is executed after some operation is completed
+function add(a, b) {
+  console.log(a + b);
+}
+exmp(add);
+add(10, 20);
+
+// day 22 scope chain
+let userName = "Anu";
+let userRole = "Admin";
+
+function checkAccess() {
+  let hasAccess = false;
+  if (userRole === "Admin") {
+    let welcomeMsg = `${userName} You have admin privileges!`;
+    hasAccess = true;
+    console.log(welcomeMsg);
+  }
+  console.log("Has Access:", hasAccess);
+  // console.log(welcomeMsg); // This will cause an error because welcomeMsg is block-scoped
+}
+// console.log(welcomeMsg); // This will cause an error because welcomeMsg is block-scoped
+checkAccess();
+
+// example 2
+let firstName = "Anu";
+function outerFunction() {
+  let outerVar = "From outerFunction";
+
+  function innerFunction() {
+    let innerVar = "From innerFunction";
+    console.log(innerVar); // Accessing innerVar from innerFunction
+    console.log(outerVar); // Accessing outerVar from innerFunction
+    console.log(firstName); // Accessing firstName from innerFunction
+  }
+  // console.log(innerVar); // This will cause an error because innerVar is not accessible in outerFunction
+  innerFunction();
+}
+// console.log(innerVar); // This will cause an error because innerVar is not accessible in the global scope
+outerFunction();
+
+// example 3
+let city = "New York";
+function showWeather() {
+  let temperature = 18;
+  if (temperature < 20) {
+    let jacketNeeded = true;
+    console.log(
+      `In ${city}, the temperature is ${temperature}°C. Jacket needed: ${jacketNeeded}`,
+    );
+    console.log(`Do you want to need a jacket? ${jacketNeeded}`);
+  }
+  // console.log(jacketNeeded); // This will cause an error because jacketNeeded is block-scoped
+}
+function greet() {
+  console.log(`Welcome to ${city}!`);
+}
+showWeather();
+greet();
+
+// day 23 closure
+function fun1() {
+  console.log("inside fun1");
+  function fun2() {
+    console.log("inside fun2");
+  }
+  return fun2;
+}
+exmp = fun1();
+exmp();
+
+function outerfun() {
+
+  let outerVar = 10; //lexical scope
+  function innerfun() {
+    console.log("outerVAr:", outerVar);
+  }
+  return innerfun;
+}
+exmp = outerfun();
+exmp();
+
+function outerfun() {
+  console.log("outerfun is starting");
+  let outerVar = 10; //lexical scope
+  function innerfun() {
+    console.log("outerfun is starting");
+    console.log("outerVAr:", outerVar);
+    console.log("outerfun is finishing");
+  }
+  console.log("outerfun is finishing");
+  return innerfun;
+}
+exmp = outerfun();
+exmp();
+
+function createCounter() {
+  let count = 0;
+
+  return function () {
+    count++;
+    console.log(count);
+  };
+}
+let counterA = createCounter();
+counterA(); // Output: 1
+counterA(); // Output: 2
+
+let counterB = createCounter();
+counterB(); // Output: 1
+counterB(); // Output: 2
+
+// day 24 Call back function
+function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a - b;
+}
+function mul(a, b) {
+  return a * b;
+}
+console.log(add(10, 20));
+console.log(sub(10, 20));
+console.log(mul(10, 20));
+
+// adding call back function
+function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a - b;
+}
+function mul(a, b) {
+  return a * b;
+}
+function calc(a, b, callback) {
+  return callback(a, b);
+}
+console.log(calc(10, 20, add));
+console.log(calc(10, 20, sub));
+console.log(calc(10, 20, mul));
+
+// exam 2
+function circleArea(radius) {
+  return Math.PI * radius * radius;
+}
+function squareArea(side) {
+  return side * side;
+}
+function equilateralTriangleArea(side) {
+  return (Math.sqrt(3) / 4) * side * side;
+}
+
+function calculateArea(value, callback) {
+  console.log(callback(value));
+}
+calculateArea(5, equilateralTriangleArea);
+
+// day 25 array
+// can store any data type in an array
+let arr = ["Moyin", 5, 6.9, true];
+console.log(arr[0]);
+console.log(arr);
+
+// array constructor
+let arr = new Array(5);
+arr[0] = 10;
+arr[1] = 20;
+arr[2] = 30;
+arr[3] = 40;
+arr[4] = 50;
+console.log(arr[0]);
+console.log(arr[1]);
+console.log(arr[2]);
+console.log(arr[3]);
+console.log(arr[4]);
+
+// loop through an array
+// for loop - for increasing order
+let arr = new Array(5);
+arr[0] = 10;
+arr[1] = 20;
+arr[2] = 30;
+arr[3] = 40;
+arr[4] = 50;
+
+let i;
+for (i = 0; i < 5; i++) {
+  console.log(arr[i]);
+}
+
+// for loop - for decreasing order
+let arr = new Array(5);
+arr[0] = 10;
+arr[1] = 20;
+arr[2] = 30;
+arr[3] = 40;
+arr[4] = 50;
+
+let i;
+for (i = 4; i >= 0; i--) {
+  console.log(arr[i]);
+}
+
+// for loop - for decreasing order using length property
+let arr = new Array(5);
+arr[0] = 10;
+arr[1] = 20;
+arr[2] = 30;
+arr[3] = 40;
+arr[4] = 50;
+
+let i;
+for (i = arr.length - 1; i >= 0; i--) {
+  console.log(arr[i]);
+}
+
+
+// for loop - for increasing order using length property
+let arr = new Array(5);
+arr[0] = 10;
+arr[1] = 20;
+arr[2] = 30;
+arr[3] = 40;
+arr[4] = 50;
+
+let i;
+for (i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+
+let arr = new Array(5);
+arr[0] = 10;
+arr[1] = 20;
+arr[2] = 30;
+arr[3] = 40;
+arr[4] = 50;
+
+for (let x of arr) {
+  console.log(x);
+}
+
+// disadvantages- you don't have a lot of control it starts from the first element and ends at the last element, you cannot skip any element, you cannot access the index of the element, you cannot modify the array while iterating it.
+
+//day 26
+// adding / removing elements
+
+let ar = [10, 20, 30, 40, 50];
+console.log(ar);
+ar.push(60); // add element at the end of the array
+console.log(ar);
+ar.unshift(70); // add element at the beginning of the array
+console.log(ar);
+
+let ar = [10, 20, 30, 40, 50];
+let x = ar.pop(); // remove element from the end of the array
+console.log(x);
+console.log(ar);
+
+let y = ar.shift(); // remove element from the beginning of the array
+console.log(y);
+console.log(ar);
+
+//splice method - to add/remove elements from any position in the array
+// syntax: array.splice(start, deleteCount, item1)
+let ar = [10, 20, 30, 40, 50];
+console.log(ar);
+let removed = ar.splice(2, 2);
+console.log(removed);
+console.log(ar);
+
+let ar = [10, 20, 30, 40, 50];
+let removed2 = ar.splice(2, 0, 60); // add 60 at index 2 and remove 0 elements
+console.log(removed2);
+console.log(ar);
+
+let ar = [10, 20, 30, 40, 50];
+let removed3 = ar.splice(2, 1, 70); // remove 1 element at index 2 and add 70 at index 2
+console.log(removed3);
+console.log(ar);
+
+
+let ar = [10, 20, 30, 40, 50];
+console.log(ar);
+let removed4 = ar.splice(2, 2, 60, 70); // remove 2 elements at index 2 and add 60 and 70 at index 2
+
+console.log(removed4);
+console.log(ar);
+
+// search for an element
+let ar = [10, 20, 30, 40, 50, 30];
+console.log(ar);
+console.log(ar.lastIndexOf(300)); // returns -1 if element is not found
+console.log(ar.indexOf(30)); // returns the index of the first occurrence of the element
+console.log(ar.lastIndexOf(30)); // returns the index of the last occurrence of the element
+console.log(ar.includes(30)); // returns true if element is found, false otherwise
+
+// array methods with call back function
+//eg: sort, filter, map, reduce,find, findIndex, some, every
+
+// map method - to create a new array by applying a function to each element of the original array
+let numbers = [1, 4, 9, 16];
+function squareRoot(x) {
+  return Math.sqrt(x);
+}
+let result = numbers.map(squareRoot);
+console.log(result);
+console.log(numbers);
+
+//using arrow function 
+let numbers = [1, 4, 9, 16];
+let result = numbers.map((x) => Math.sqrt(x));
+console.log(result);
+console.log(numbers);
+
+// filter method - to create a new array with all elements that pass the test implemented by the provided function
+let ages = [32, 15, 19, 12];
+function checkage(x) {
+  if (x >= 18) {
+    return true;
+  } else {
+    return false;
+  }
+}
+let result = ages.filter(checkage);
+console.log(result);
+console.log(ages);
+
+
+// using arrow function
+let ages = [32, 15, 19, 12];
+let result = ages.filter((x) => {
+  if (x > 18) {
+    return true;
+  } else {
+    return false;
+  }
+});
+
+console.log(result);
+console.log(ages);
+
+// reduce method - to execute a reducer function on each element of the array, resulting in a single output value
+// syntax: array.reduce(callback(accumulator, currentValue, currentIndex, array), initialValue)
+let numbers = [1, 4, 9, 16];
+let result = numbers.reduce((total, x) => total + x, 0);
+console.log(result);
+console.log(numbers);
+
+// some method - to test whether at least one element in the array passes the test implemented by the provided function
+let score = [85, 72, 90, 67];
+let HasGradeA = score.some((x) => x > 85); // returns true if at least one element is greater than 85
+console.log(HasGradeA);
+// every method - to test whether all elements in the array pass the test implemented by the provided function
+let HasPassed = score.every((x) => x > 50); // returns true if all elements are greater than 50
+console.log(HasPassed);
+
+// find method - to return the value of the first element in the array that satisfies the provided testing function
+let score = [85, 72, 90, 67];
+let res = score.find((x) => x > 70); // returns the value of the first element that satisfies the condition
+console.log(res);
+// findIndex method - to return the index of the first element in the array that satisfies the provided testing function
+let res2 = score.findIndex((x) => x > 85); // returns the index of the first element that satisfies the condition
+console.log(res2);
+
+// sort method - to sort the elements of an array in place and return the sorted array
+let fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits);
+fruits.sort(); // sorts the array in alphabetical order
+console.log(fruits);
+
+let numbers = [85, 72, 90, 67];
+console.log(numbers);
+numbers.sort(); // sorts the array in ascending order
+console.log(numbers);
+
+// day 28 dimension of an array
+// dimension means the amount of data or information required to access the contents inside an array
+let ar = [
+  [25, 30, 22],
+  [23, 31, 24],
+  [26, 30, 20],
+];
+console.log(ar);
+let i;
+for (i = 0; i < ar.length; i++) {
+  let j;
+  for (j = 0; j < ar[0].length; j++) {
+    console.log(ar[i][j]);
+  }
+}
+
+// multi dimensional array
+let ar = [
+  [
+    [50, 70],
+    [65, 87],
+  ],
+  [
+    [90, 45],
+    [80, 30],
+  ],
+];
+let i;
+let j;
+let k;
+for (i = 0; i < ar.length; i++) {
+  for (j = 0; j < ar[i].length; j++) {
+    for (k = 0; k < ar[i][j].length; k++) {
+      console.log(ar[i][j][k]);
+    }
+  }
+}
+*/
